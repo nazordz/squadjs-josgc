@@ -1,0 +1,28 @@
+services:
+  squad:
+    image: cm2network/squad
+    container_name: squad
+    restart: unless-stopped
+    cpuset: "2"
+    volumes:
+      - ./squad-data:/home/steam/squad-dedicated/
+    network_mode: host
+    environment:
+      - PORT=7787
+      - QUERYPORT=27165
+      - RCONPORT=21114
+      - FIXEDMAXPLAYERS=100
+  db:
+    image: mysql:8.4
+    restart: always
+    volumes:
+      - mysql-data:/var/lib/mysql
+    ports:
+      - 3306:3306
+    environment:
+      MYSQL_USER: squaduser
+      MYSQL_DATABASE: squadjs
+      MYSQL_PASSWORD: password
+      MYSQL_ROOT_PASSWORD: password
+volumes:
+  mysql-data:
