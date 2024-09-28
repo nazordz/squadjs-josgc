@@ -124,9 +124,7 @@
       "channelID": "",
       "chatColors": {},
       "color": 16761867,
-      "ignoreChats": [
-        "ChatSquad"
-      ]
+      "ignoreChats": ["ChatSquad"]
     },
     {
       "plugin": "DiscordDebug",
@@ -245,6 +243,179 @@
       "plugin": "TeamRandomizer",
       "enabled": true,
       "command": "randomize"
+    },
+    {
+      "plugin": "KnifeBroadcast",
+      "enabled": true,
+      "heli": {
+        "enabled": true,
+        "layout": "{{attacker}} {{message}}",
+        "ids": [
+          "BP_MI8_VD",
+          "BP_UH1Y",
+          "BP_UH60",
+          "BP_UH1H_Desert",
+          "BP_UH1H",
+          "BP_CH178",
+          "BP_MI8",
+          "BP_CH146",
+          "BP_MI17_MEA",
+          "BP_Z8G",
+          "BP_CH146",
+          "BP_CH146_Desert",
+          "BP_SA330",
+          "BP_UH60_AUS",
+          "BP_MRH90_Mag58",
+          "BP_Z8J"
+        ],
+        "messages": ["CRASHED LANDED", "MADE A FLAWLESS LANDING", "YOU CAN'T PARK THERE"]
+      },
+      "knife": {
+        "enabled": true,
+        "layout": "{{attacker}} {{message}} {{victim}}",
+        "ids": [
+          "BP_AK74Bayonet",
+          "BP_AKMBayonet",
+          "BP_Bayonet2000",
+          "BP_G3Bayonet",
+          "BP_M9Bayonet",
+          "BP_OKC-3S",
+          "BP_QNL-95_Bayonet",
+          "BP_SA80Bayonet",
+          "BP_SKS_Bayonet",
+          "BP_SKS_Optic_Bayonet",
+          "BP_SOCP_Knife_AUS",
+          "BP_SOCP_Knife_ADF",
+          "BP_VibroBlade_Knife_GC",
+          "BP_SOCP_Knife_ADF_C",
+          "BP_SA80Bayonet_C",
+          "BP_Bayonet2000_C",
+          "BP_AKMBayonet_C",
+          "BP_G3Bayonet_C",
+          "BP_M9Bayonet_C",
+          "BP_SKS_Bayonet_C",
+          "BP_OKC-3S_C",
+          "BP_VibroBlade_Knife_GC_C",
+          "BP_MeleeUbop_C",
+          "BP_BananaClub_C",
+          "BP_Droid_Punch_C",
+          "BP_MagnaGuard_Punch_C",
+          "BP_FAMAS_Bayonet_C",
+          "BP_FAMAS_BayonetRifle_C",
+          "BP_HK416_Bayonet_C"
+        ],
+        "messages": [
+          "KNIFED",
+          "SLICED",
+          "DICED",
+          "ICED",
+          "CUT",
+          "PAPER CUT",
+          "RAZORED",
+          "EDWARD SCISSOR HAND'D",
+          "FRUIT NINJA'D"
+        ]
+      }
+    },
+    {
+      "plugin": "SquadBaiting",
+      "enabled": true,
+      "discordClient": "discord",
+      "channelID": "1116600997722661199",
+      "resetPlayerCountersAtNewGame": true,
+      "warnInGameAdmins": true,
+      "disableDefaultAdminWarns": false,
+      "roleChangeTriggersSquadBaiting": true,
+      "detectEarlySquadbaitingMinutes": 1,
+      "enforceEarlySquadBaitingAfterSeconds": 30,
+      "playerRules": [
+        {
+          "name": "Squad baiting is not allowed",
+          "enabled": true,
+          "discordLogging": false,
+          "baitingCounter": {
+            "min": 0,
+            "max": 6
+          },
+          "actions": [
+            {
+              "type": "rcon",
+              "enabled": true,
+              "content": "AdminWarn {old_leader:steamid} \"Squad baiting is not allowed\""
+            }
+          ]
+        },
+        {
+          "name": "Kick player",
+          "enabled": true,
+          "discordLogging": true,
+          "baitingCounter": {
+            "min": 7,
+            "max": 15
+          },
+          "actions": [
+            {
+              "type": "rcon",
+              "enabled": false,
+              "content": "AdminKick {old_leader:steamid} \"Squad baiting not allowed\""
+            }
+          ]
+        }
+      ],
+      "squadRules": [
+        {
+          "name": "Pre-disband warnings",
+          "enabled": true,
+          "baitingCounter": {
+            "min": 4,
+            "max": 5
+          },
+          "actions": [
+            {
+              "type": "rcon",
+              "content": "AdminBroadcast \"Squad {squad:squadid} Team {squad:teamid} will be disbanded due to squad-baiting\""
+            },
+            {
+              "type": "rcon",
+              "content": "AdminDisbandSquad {squad:teamid} {squad:squadid}"
+            },
+            {
+              "type": "warn-admins",
+              "content": "{old_leader:name} is doing squadbaiting"
+            }
+          ]
+        },
+        {
+          "name": "Disband warnings",
+          "enabled": true,
+          "baitingCounter": {
+            "min": 6,
+            "max": 10
+          },
+          "actions": [
+            {
+              "type": "rcon",
+              "content": "AdminBroadcast \"Squad {squad:squadid} Team {squad:teamid} has been disbanded due to squad-baiting\""
+            },
+            {
+              "type": "rcon",
+              "content": "AdminDisbandSquad {squad:teamid} {squad:squadid}"
+            }
+          ]
+        }
+      ],
+      "earlySquadBaitingRules": [
+        {
+          "name": "Disband",
+          "enabled": true,
+          "actions": [
+            {
+              "type": "rcon",
+              "content": "AdminDisbandSquad {squad:teamid} {squad:squadid}"
+            }
+          ]
+        }
+      ]
     }
   ],
   "logger": {
